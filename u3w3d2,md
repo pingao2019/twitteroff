@@ -1,0 +1,5 @@
+Reproduce the steps from lecture (ensure you can access both the Twitter and Basilica APIs via Python), then:
+
+    Write methods to pull actual Users and Tweets and replace your invented data with actual Twitter data
+    Add an embedding field to your Tweet model, and functions to populate it with embeddings returned from Basilica
+

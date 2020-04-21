@@ -1,4 +1,5 @@
 # web_app/routes/book_routes.py
+# refactor using app factory pattern
 
 from flask import Blueprint, jsonify, request, render_template, redirect #, flash, 
 
