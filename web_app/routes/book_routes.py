@@ -2,16 +2,20 @@
 # refactor using app factory pattern
 
 from flask import Blueprint, jsonify, request, render_template, redirect #, flash, 
-
+from web_app.models import db, book, parse_records
 book_routes = Blueprint("book_routes", __name__)
 
 @book_routes.route("/books.json")
 def list_books():
-    books = [
-        {"id": 1, "title": "Book 1"},
-        {"id": 2, "title": "Book 2"},
-        {"id": 3, "title": "Book 3"},
-    ]
+    #books = [
+    #    {"id": 1, "title": "Book 1"},
+    #   {"id": 2, "title": "Book 2"},
+    #   {"id": 3, "title": "Book 3"},
+    #]
+    book_records=book.query.all()
+    print(book_records)
+    books=parse_records(book_records)
+
     return jsonify(books)
 
 @book_routes.route("/books")
