@@ -17,7 +17,7 @@ print("AUTH", auth) #> <tweepy.auth.OAuthHandler object at 0x110887290>
 api = tweepy.API(auth)
 print("API", api) #> <tweepy.api.API object at 0x110899790>
 print(dir(api))
-
+# get information about a twitter user:
 user = api.get_user("elonmusk")
 print("USER", user) #> <class 'tweepy.models.User'>
 print(user.screen_name)
@@ -28,3 +28,9 @@ pprint(user._json)
 
 statuses = api.user_timeline("elonmusk")
 pprint(statuses[0]._json)
+
+
+
+# get that user's tweets:
+# see: http://docs.tweepy.org/en/latest/api.html#API.user_timeline
+ 

@@ -1,12 +1,3 @@
-from flask import Flask
-def create_app():
-    app= Flask(__name__)
-    @app.routes('/')
-    def root():
-        return 'Hello!'
-    return app
-
-
 #from teacher 
 # app.py
 
