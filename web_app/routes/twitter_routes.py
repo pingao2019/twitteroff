@@ -1,9 +1,11 @@
-# web_app/routes/twitter_routes.py
+# web_app/routes/twitter_routes.py    A data-backed application
 # Write methods to pull actual Users and Tweets and replace your invented data with actual Twitter data
 # Add an embedding field to your Tweet model, and functions to populate it with embeddings returned from Basilica
-from flask import Blueprint, jsonify
+# web_app/routes/twitter_routes.py
 
-from web_app.models import User, Tweet, db
+from flask import Blueprint, jsonify, render_template
+
+from web_app.models import User, Tweet, db, parse_records
 from web_app.services.twitter_service import api_client
 from web_app.services.basilica_service import connection as basilica_connection
 
@@ -15,7 +17,7 @@ def fetch_user_data(screen_name=None):
 
     api = api_client()
     twitter_user = api.get_user(screen_name)
-    statuses = api.user_timeline(screen_name, tweet_mode="extended", count=150, exclude_replies=True, include_rts=False)
+    statuses = api.user_timeline(screen_name, tweet_mode="extended", count=150)
     print("STATUSES COUNT:", len(statuses))
 
     #new_book = Book(title=request.form["book_title"], author_id=request.form["author_name"])
@@ -65,12 +67,11 @@ def fetch_user_data(screen_name=None):
     return "OK"
     #return render_template("user.html", user=db_user, tweets=statuses) # tweets=db_tweets
 
-
-# web_app/routes/twitter_routes.py
-
-# u3w3d3...
-
 @twitter_routes.route("/users")
+def list_users_human_friendly():
+    db_users = User.query.all()
+    return render_template("users.html", users=db_users)
+
 @twitter_routes.route("/users.json")
 def list_users():
     db_users = User.query.all()
@@ -80,8 +81,5 @@ def list_users():
 @twitter_routes.route("/users/<screen_name>")
 def get_user(screen_name=None):
     print(screen_name)
-
-    # ...
-
-    return render_template("user.html", user=db_user, tweets=statuses) # tweets=db_tweets
-
+    db_user = User.query.filter(User.screen_name == screen_name).one()
+    return render_template("user.html", user=db_user, tweets=db_user.tweets)
